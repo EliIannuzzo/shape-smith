@@ -1,7 +1,7 @@
 # ShapeSmith
 
-A desktop editor for Vintage Story shapes: build models, texture them and
-animate them, then export files the game loads as they are.\
+A desktop editor for Vintage Story shapes\
+Build models, texture them and animate them, then export files.\
 Made with Godot 4.7 mono.
 
 ![ShapeSmith animating the seraph](docs/images/screenshot.png)
