@@ -1,0 +1,175 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://ui/texturing/texture_manager.gd" id="1"]
+[ext_resource type="Script" path="res://ui/dialogs/image_file_dialog.gd" id="2_picker"]
+
+[node name="TextureManager" type="MarginContainer"]
+size_flags_vertical = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+script = ExtResource("1")
+
+[node name="Layout" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Assets" type="HBoxContainer" parent="Layout"]
+
+[node name="AssetRoot" type="Label" parent="Layout/Assets"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Assets: automatic / link files individually"
+theme_type_variation = &"MutedLabel"
+text_overrun_behavior = 3
+
+[node name="ChooseRoot" type="Button" parent="Layout/Assets"]
+unique_name_in_owner = true
+text = "Asset Paths…"
+
+[node name="TexelSettings" type="HBoxContainer" parent="Layout"]
+
+[node name="Label" type="Label" parent="Layout/TexelSettings"]
+text = "Texel size"
+custom_minimum_size = Vector2(72, 0)
+theme_type_variation = &"FieldLabel"
+
+[node name="TexelSize" type="SpinBox" parent="Layout/TexelSettings"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
+min_value = 0.001
+max_value = 1024.0
+step = 0.001
+value = 0.5
+tooltip_text = "Shape units per image pixel. Vintage Story default: 0.5 (32 pixels per block)."
+
+[node name="Units" type="Label" parent="Layout/TexelSettings"]
+text = "units per pixel"
+tooltip_text = "Shape units per image pixel. Vintage Story default: 0.5 (32 pixels per block)."
+mouse_filter = 1
+theme_type_variation = &"MutedLabel"
+theme_override_font_sizes/font_size = 11
+
+[node name="TopRule" type="HSeparator" parent="Layout"]
+
+[node name="AddRow" type="HBoxContainer" parent="Layout"]
+
+[node name="NewID" type="LineEdit" parent="Layout/AddRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+placeholder_text = "New texture ID (e.g. wood)"
+
+[node name="AddID" type="Button" parent="Layout/AddRow"]
+unique_name_in_owner = true
+text = "Add Texture"
+
+[node name="Content" type="VSplitContainer" parent="Layout"]
+size_flags_vertical = 3
+split_offset = 0
+
+[node name="IDs" type="ItemList" parent="Layout/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 120)
+theme_type_variation = &"TextureIDs"
+
+[node name="DetailsScroll" type="ScrollContainer" parent="Layout/Content"]
+size_flags_horizontal = 3
+horizontal_scroll_mode = 0
+
+[node name="Details" type="VBoxContainer" parent="Layout/Content/DetailsScroll"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="BaseLabel" type="Label" parent="Layout/Content/DetailsScroll/Details"]
+text = "Base texture (path, domain:path or #ID)"
+theme_type_variation = &"FieldLabel"
+
+[node name="BaseRow" type="HBoxContainer" parent="Layout/Content/DetailsScroll/Details"]
+
+[node name="Base" type="LineEdit" parent="Layout/Content/DetailsScroll/Details/BaseRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+placeholder_text = "game:block/stone/granite"
+
+[node name="BrowseBase" type="Button" parent="Layout/Content/DetailsScroll/Details/BaseRow"]
+unique_name_in_owner = true
+text = "Link File…"
+
+[node name="LayerHeader" type="HBoxContainer" parent="Layout/Content/DetailsScroll/Details"]
+
+[node name="Label" type="Label" parent="Layout/Content/DetailsScroll/Details/LayerHeader"]
+size_flags_horizontal = 3
+text = "OVERLAY STACK"
+theme_type_variation = &"SectionHeading"
+
+[node name="PreviewOverlays" type="CheckButton" parent="Layout/Content/DetailsScroll/Details/LayerHeader"]
+unique_name_in_owner = true
+text = "Preview overlays"
+button_pressed = true
+
+[node name="Layers" type="ItemList" parent="Layout/Content/DetailsScroll/Details"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 65)
+size_flags_vertical = 3
+theme_type_variation = &"TextureLayers"
+
+[node name="LayerButtons" type="HBoxContainer" parent="Layout/Content/DetailsScroll/Details"]
+
+[node name="AddOverlay" type="Button" parent="Layout/Content/DetailsScroll/Details/LayerButtons"]
+unique_name_in_owner = true
+text = "Add Overlay…"
+
+[node name="RemoveOverlay" type="Button" parent="Layout/Content/DetailsScroll/Details/LayerButtons"]
+unique_name_in_owner = true
+text = "Remove"
+
+[node name="MoveUp" type="Button" parent="Layout/Content/DetailsScroll/Details/LayerButtons"]
+unique_name_in_owner = true
+text = "Up"
+
+[node name="MoveDown" type="Button" parent="Layout/Content/DetailsScroll/Details/LayerButtons"]
+unique_name_in_owner = true
+text = "Down"
+
+[node name="BlendRow" type="HBoxContainer" parent="Layout/Content/DetailsScroll/Details"]
+
+[node name="Label" type="Label" parent="Layout/Content/DetailsScroll/Details/BlendRow"]
+text = "Blend mode"
+custom_minimum_size = Vector2(72, 0)
+theme_type_variation = &"FieldLabel"
+
+[node name="BlendMode" type="OptionButton" parent="Layout/Content/DetailsScroll/Details/BlendRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+
+[node name="PreviewPanel" type="PanelContainer" parent="Layout/Content/DetailsScroll/Details"]
+size_flags_vertical = 3
+theme_type_variation = &"TexturePreview"
+
+[node name="Preview" type="TextureRect" parent="Layout/Content/DetailsScroll/Details/PreviewPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 65)
+size_flags_vertical = 3
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Message" type="Label" parent="Layout/Content/DetailsScroll/Details"]
+unique_name_in_owner = true
+text = "Add a texture, then link its base image."
+autowrap_mode = 2
+max_lines_visible = 3
+theme_override_font_sizes/font_size = 12
+theme_type_variation = &"MutedLabel"
+
+[node name="ImagePicker" type="FileDialog" parent="."]
+script = ExtResource("2_picker")
+unique_name_in_owner = true
+title = "Link Texture Asset"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.png,*.jpg,*.jpeg,*.webp ; Texture images")
+
+
+

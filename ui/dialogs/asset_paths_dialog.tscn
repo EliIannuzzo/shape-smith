@@ -1,0 +1,79 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://ui/dialogs/asset_paths_dialog.gd" id="1"]
+
+[node name="AssetPaths" type="ConfirmationDialog"]
+title = "Configure Asset Paths"
+size = Vector2i(850, 520)
+min_size = Vector2i(600, 390)
+ok_button_text = "Apply"
+script = ExtResource("1")
+
+[node name="Layout" type="VBoxContainer" parent="."]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 834.0
+offset_bottom = 470.0
+theme_override_constants/separation = 12
+
+[node name="BaseLabel" type="Label" parent="Layout"]
+text = "BASE ASSET PATH"
+theme_override_font_sizes/font_size = 12
+
+[node name="BaseRow" type="HBoxContainer" parent="Layout"]
+
+[node name="BasePath" type="LineEdit" parent="Layout/BaseRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+placeholder_text = "Vintage Story installation or assets folder"
+
+[node name="BrowseBase" type="Button" parent="Layout/BaseRow"]
+unique_name_in_owner = true
+text = "Browse…"
+
+[node name="AdditionalLabel" type="Label" parent="Layout"]
+text = "ADDITIONAL ASSET PATHS · IN SEARCH ORDER"
+theme_override_font_sizes/font_size = 12
+
+[node name="AdditionalPaths" type="ItemList" parent="Layout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+size_flags_vertical = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Layout"]
+
+[node name="Add" type="Button" parent="Layout/Buttons"]
+unique_name_in_owner = true
+text = "Add Folder…"
+
+[node name="Remove" type="Button" parent="Layout/Buttons"]
+unique_name_in_owner = true
+text = "Remove"
+
+[node name="Up" type="Button" parent="Layout/Buttons"]
+unique_name_in_owner = true
+text = "Up"
+
+[node name="Down" type="Button" parent="Layout/Buttons"]
+unique_name_in_owner = true
+text = "Down"
+
+[node name="Hint" type="Label" parent="Layout"]
+custom_minimum_size = Vector2(500, 0)
+text = "Choose an install/mod folder, an assets folder, or a domain folder containing textures."
+autowrap_mode = 2
+theme_override_font_sizes/font_size = 12
+
+[node name="Message" type="Label" parent="Layout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 0)
+autowrap_mode = 2
+theme_type_variation = &"MutedLabel"
+theme_override_font_sizes/font_size = 12
+
+[node name="FolderPicker" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Choose Asset Path"
+file_mode = 2
+access = 2
+

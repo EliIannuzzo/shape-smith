@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://bnsvhjij5v8wu"]
+
+[ext_resource type="Script" uid="uid://dtkj50pr3jsk7" path="res://ui/viewport/model_viewport.gd" id="1_script"]
+
+[sub_resource type="Environment" id="Environment_editor"]
+background_mode = 1
+background_color = Color(0.141176, 0.160784, 0.180392, 1)
+ambient_light_source = 2
+ambient_light_color = Color(1, 0.99, 0.98, 1)
+ambient_light_energy = 0.2
+glow_enabled = true
+glow_bloom = 0.1
+
+[sub_resource type="StandardMaterial3D" id="Material_grid"]
+shading_mode = 0
+vertex_color_use_as_albedo = true
+
+[sub_resource type="ImmediateMesh" id="Mesh_grid"]
+
+[sub_resource type="ImmediateMesh" id="Mesh_axes"]
+
+[node name="ModelViewport" type="SubViewportContainer" unique_id=1158532072]
+custom_minimum_size = Vector2(0, 100)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 2
+mouse_default_cursor_shape = 16
+stretch = true
+script = ExtResource("1_script")
+
+[node name="Viewport" type="SubViewport" parent="." unique_id=1873474622]
+own_world_3d = true
+handle_input_locally = false
+msaa_3d = 2
+size = Vector2i(2, 100)
+render_target_update_mode = 4
+
+[node name="World" type="Node3D" parent="Viewport" unique_id=1017077851]
+
+[node name="Environment" type="WorldEnvironment" parent="Viewport/World" unique_id=1197208508]
+environment = SubResource("Environment_editor")
+
+[node name="KeyLight" type="DirectionalLight3D" parent="Viewport/World" unique_id=877622382]
+transform = Transform3D(0.8660254, 0.40957603, -0.28678823, 0, 0.57357645, 0.81915206, 0.5, -0.7094065, 0.49673176, 0, 0, 0)
+light_color = Color(1, 0.98, 0.96, 1)
+light_energy = 0.55
+
+[node name="FillLight" type="DirectionalLight3D" parent="Viewport/World" unique_id=195893602]
+transform = Transform3D(-0.76604444, -0.2716538, 0.5825634, 0, 0.90630776, 0.42261827, -0.64278764, 0.3237444, -0.69427204, 0, 0, 0)
+light_color = Color(0.94, 0.97, 1, 1)
+light_energy = 0.25
+
+[node name="Grid" type="MeshInstance3D" parent="Viewport/World" unique_id=297858708]
+material_override = SubResource("Material_grid")
+cast_shadow = 0
+mesh = SubResource("Mesh_grid")
+
+[node name="Models" type="Node3D" parent="Viewport/World" unique_id=1118439669]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -0.5)
+
+[node name="Axes" type="MeshInstance3D" parent="Viewport/World" unique_id=827696025]
+material_override = SubResource("Material_grid")
+cast_shadow = 0
+mesh = SubResource("Mesh_axes")
+
+[node name="Camera" type="Camera3D" parent="Viewport/World" unique_id=1965816898]
+current = true
+fov = 45.0
+near = 0.001
+far = 10000.0
+
+[node name="DirectionalLight" type="DirectionalLight3D" parent="Viewport/World" unique_id=1435815875]
+transform = Transform3D(0.99999994, 0, 0, 0, -4.371139e-08, 1.0000001, 0, -1, -4.3711392e-08, 0, 0, 0)

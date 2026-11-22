@@ -1,0 +1,53 @@
+[gd_scene format=3]
+
+[node name="GridSettings" type="ConfirmationDialog"]
+title = "Grid Dimensions"
+size = Vector2i(420, 230)
+ok_button_text = "Apply"
+
+[node name="Fields" type="VBoxContainer" parent="."]
+offset_left = 20.0
+offset_top = 16.0
+offset_right = 400.0
+offset_bottom = 170.0
+theme_override_constants/separation = 14
+
+[node name="Description" type="Label" parent="Fields"]
+layout_mode = 2
+text = "Floor size in Vintage Story blocks"
+
+[node name="Dimensions" type="GridContainer" parent="Fields"]
+layout_mode = 2
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="WidthLabel" type="Label" parent="Fields/Dimensions"]
+layout_mode = 2
+text = "Width (X)"
+
+[node name="Width" type="SpinBox" parent="Fields/Dimensions"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 255.0
+step = 1.0
+value = 15.0
+
+[node name="DepthLabel" type="Label" parent="Fields/Dimensions"]
+layout_mode = 2
+text = "Depth (Z)"
+
+[node name="Depth" type="SpinBox" parent="Fields/Dimensions"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 255.0
+step = 1.0
+value = 15.0
+
+[node name="Hint" type="Label" parent="Fields"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Odd dimensions keep a full cell centered.\nEven entries round up to the next odd number."
+

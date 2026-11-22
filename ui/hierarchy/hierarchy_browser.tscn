@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://ui/hierarchy/hierarchy_browser.gd" id="1"]
+
+[node name="Hierarchy" type="PanelContainer"]
+custom_minimum_size = Vector2(200, 0)
+theme_type_variation = &"SidebarPanel"
+script = ExtResource("1")
+
+[node name="Margin" type="MarginContainer" parent="."]
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 12
+
+[node name="Layout" type="VBoxContainer" parent="Margin"]
+theme_override_constants/separation = 6
+
+[node name="Tools" type="HBoxContainer" parent="Margin/Layout"]
+
+[node name="Filter" type="LineEdit" parent="Margin/Layout/Tools"]
+size_flags_horizontal = 3
+placeholder_text = "Filter shapes…"
+clear_button_enabled = true
+
+[node name="Add" type="Button" parent="Margin/Layout/Tools"]
+text = "+"
+tooltip_text = "Add shape as child of selection, or at root"
+
+[node name="Tree" type="Tree" parent="Margin/Layout"]
+size_flags_vertical = 3
+hide_root = true
+allow_reselect = true
+

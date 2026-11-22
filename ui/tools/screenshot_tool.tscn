@@ -1,0 +1,89 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://ui/tools/screenshot_tool.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/icons/refresh.svg" id="2_refresh"]
+
+[node name="ScreenshotTool" type="Window"]
+title = "Screenshot"
+size = Vector2i(600, 460)
+min_size = Vector2i(400, 380)
+visible = false
+transient = true
+script = ExtResource("1")
+default_size = Vector2i(600, 460)
+
+[node name="Panel" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"SidebarPanel"
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Layout" type="VBoxContainer" parent="Panel/Margin"]
+theme_override_constants/separation = 10
+
+[node name="Preview" type="TextureRect" parent="Panel/Margin/Layout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 120)
+size_flags_vertical = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ResolutionRow" type="HBoxContainer" parent="Panel/Margin/Layout"]
+
+[node name="Label" type="Label" parent="Panel/Margin/Layout/ResolutionRow"]
+text = "Resolution"
+
+[node name="Resolution" type="OptionButton" parent="Panel/Margin/Layout/ResolutionRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+tooltip_text = "Render at this resolution. Changing aspect ratio changes camera framing."
+
+[node name="Transparent" type="CheckBox" parent="Panel/Margin/Layout"]
+unique_name_in_owner = true
+text = "Transparent background"
+button_pressed = true
+
+[node name="IncludeGrid" type="CheckBox" parent="Panel/Margin/Layout"]
+unique_name_in_owner = true
+text = "Include visible grid and axes"
+
+[node name="Message" type="Label" parent="Panel/Margin/Layout"]
+unique_name_in_owner = true
+text = "Capture the current 3D view, then save it as a PNG."
+autowrap_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="Panel/Margin/Layout"]
+theme_override_constants/separation = 8
+
+[node name="Capture" type="Button" parent="Panel/Margin/Layout/Buttons"]
+unique_name_in_owner = true
+icon = ExtResource("2_refresh")
+theme_override_constants/icon_max_width = 20
+tooltip_text = "Refresh preview"
+
+[node name="Save" type="Button" parent="Panel/Margin/Layout/Buttons"]
+unique_name_in_owner = true
+text = "Save PNG…"
+disabled = true
+
+[node name="Spacer" type="Control" parent="Panel/Margin/Layout/Buttons"]
+size_flags_horizontal = 3
+
+[node name="Close" type="Button" parent="Panel/Margin/Layout/Buttons"]
+unique_name_in_owner = true
+text = "Close"
+
+[node name="SaveDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Save screenshot"
+file_mode = 4
+access = 2
+filters = PackedStringArray("*.png ; PNG image")

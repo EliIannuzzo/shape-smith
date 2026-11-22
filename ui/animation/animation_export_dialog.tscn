@@ -1,0 +1,97 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://ui/animation/animation_export_dialog.gd" id="1"]
+[node name="AnimationExport" type="Window"]
+title = "Export for Vintage Story"
+size = Vector2i(520, 430)
+min_size = Vector2i(440, 390)
+visible = false
+transient = true
+script = ExtResource("1")
+default_size = Vector2i(520, 430)
+[node name="Panel" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"SidebarPanel"
+[node name="Margin" type="MarginContainer" parent="Panel"]
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+[node name="Layout" type="VBoxContainer" parent="Panel/Margin"]
+theme_override_constants/separation = 10
+[node name="Heading" type="Label" parent="Panel/Margin/Layout"]
+text = "Animation baking"
+[node name="ReductionRow" type="HBoxContainer" parent="Panel/Margin/Layout"]
+[node name="Label" type="Label" parent="Panel/Margin/Layout/ReductionRow"]
+text = "Keyframe reduction"
+size_flags_horizontal = 3
+[node name="Reduction" type="OptionButton" parent="Panel/Margin/Layout/ReductionRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+[node name="IntervalRow" type="HBoxContainer" parent="Panel/Margin/Layout"]
+[node name="Label" type="Label" parent="Panel/Margin/Layout/IntervalRow"]
+text = "Bake interval (frames)"
+size_flags_horizontal = 3
+[node name="Interval" type="SpinBox" parent="Panel/Margin/Layout/IntervalRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+min_value = 1.0
+max_value = 120.0
+value = 1.0
+tooltip_text = "Curves are sampled at this interval before reduction. Use 1 for highest fidelity. Authored frames are always kept."
+[node name="PositionRow" type="HBoxContainer" parent="Panel/Margin/Layout"]
+[node name="Label" type="Label" parent="Panel/Margin/Layout/PositionRow"]
+text = "Position tolerance (shape units)"
+size_flags_horizontal = 3
+[node name="PositionTolerance" type="SpinBox" parent="Panel/Margin/Layout/PositionRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+max_value = 1000000.0
+step = 0.000001
+value = 0.01
+[node name="RotationRow" type="HBoxContainer" parent="Panel/Margin/Layout"]
+[node name="Label" type="Label" parent="Panel/Margin/Layout/RotationRow"]
+text = "Rotation tolerance (degrees)"
+size_flags_horizontal = 3
+[node name="RotationTolerance" type="SpinBox" parent="Panel/Margin/Layout/RotationRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+max_value = 1000000.0
+step = 0.000001
+value = 0.1
+[node name="ScaleRow" type="HBoxContainer" parent="Panel/Margin/Layout"]
+[node name="Label" type="Label" parent="Panel/Margin/Layout/ScaleRow"]
+text = "Scale tolerance"
+size_flags_horizontal = 3
+[node name="ScaleTolerance" type="SpinBox" parent="Panel/Margin/Layout/ScaleRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+max_value = 1000000.0
+step = 0.000001
+value = 0.001
+[node name="Explanation" type="Label" parent="Panel/Margin/Layout"]
+unique_name_in_owner = true
+autowrap_mode = 3
+text = "Auto uses conservative tolerances."
+[node name="Summary" type="Label" parent="Panel/Margin/Layout"]
+unique_name_in_owner = true
+autowrap_mode = 3
+size_flags_vertical = 3
+[node name="Buttons" type="HBoxContainer" parent="Panel/Margin/Layout"]
+alignment = 2
+[node name="Cancel" type="Button" parent="Panel/Margin/Layout/Buttons"]
+unique_name_in_owner = true
+text = "Close"
+[node name="Export" type="Button" parent="Panel/Margin/Layout/Buttons"]
+unique_name_in_owner = true
+text = "Export…"
+[node name="Picker" type="FileDialog" parent="."]
+title = "Export Vintage Story shape"
+size = Vector2i(960, 600)
+min_size = Vector2i(600, 400)
+file_mode = 4
+access = 2
+filters = PackedStringArray("*.json ; Vintage Story Shape")

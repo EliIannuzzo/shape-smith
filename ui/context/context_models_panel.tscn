@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="Script" path="res://ui/context/context_models_panel.gd" id="1"]
+[ext_resource type="Script" path="res://ui/shared/tool_window.gd" id="2"]
+[node name="ContextModelsPanel" type="Node"]
+script = ExtResource("1")
+[node name="Dialog" type="Window" parent="."]
+title = "Shapes"
+visible = false
+transient = true
+min_size = Vector2i(640, 480)
+script = ExtResource("2")
+default_size = Vector2i(820, 700)
+[node name="Panel" type="PanelContainer" parent="Dialog"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"SidebarPanel"
+[node name="Margin" type="MarginContainer" parent="Dialog/Panel"]
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+[node name="Layout" type="VBoxContainer" parent="Dialog/Panel/Margin"]
+[node name="Picker" type="FileDialog" parent="."]
+title = "Add a shape"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.json ; Vintage Story shapes")
+[node name="ContextPrompt" type="ConfirmationDialog" parent="."]
+title = "Open shape in context"
+dialog_text = "Save changes to the current shape before opening the other one?"
+ok_button_text = "Save and Open"
+[node name="StepParent" type="VBoxContainer" parent="."]
+[node name="Label" type="Label" parent="StepParent"]
+text = "Step parent · root elements only"
+theme_type_variation = &"SectionHeading"
+uppercase = true
+[node name="Name" type="LineEdit" parent="StepParent"]
+placeholder_text = "Element name in another shape"
+[node name="Choices" type="OptionButton" parent="StepParent"]

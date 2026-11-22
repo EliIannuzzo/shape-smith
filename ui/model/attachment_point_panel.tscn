@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3]
+[ext_resource type="Script" path="res://ui/shared/property_panel.gd" id="1"]
+[ext_resource type="PackedScene" path="res://ui/shared/vector3_field.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/icons/material/add.svg" id="3"]
+[ext_resource type="Texture2D" path="res://assets/icons/material/content_copy.svg" id="4"]
+[ext_resource type="Texture2D" path="res://assets/icons/material/delete.svg" id="5"]
+[node name="AttachmentPointPanel" type="PanelContainer"]
+script = ExtResource("1")
+[node name="AttachmentPoints" type="VBoxContainer" parent="."]
+theme_override_constants/separation = 4
+[node name="Heading" type="Label" parent="AttachmentPoints"]
+text = "ATTACHMENT POINTS"
+theme_type_variation = &"SectionHeading"
+[node name="List" type="ItemList" parent="AttachmentPoints"]
+custom_minimum_size = Vector2(0, 84)
+[node name="Actions" type="HBoxContainer" parent="AttachmentPoints"]
+[node name="Add" type="Button" parent="AttachmentPoints/Actions"]
+tooltip_text = "Add attachment point"
+icon = ExtResource("3")
+[node name="Duplicate" type="Button" parent="AttachmentPoints/Actions"]
+tooltip_text = "Duplicate attachment point"
+icon = ExtResource("4")
+[node name="Delete" type="Button" parent="AttachmentPoints/Actions"]
+tooltip_text = "Delete attachment point"
+icon = ExtResource("5")
+[node name="EditShape" type="Button" parent="AttachmentPoints/Actions"]
+text = "Edit shape"
+tooltip_text = "Edit shape · leave attachment point editing"
+[node name="CodeLabel" type="Label" parent="AttachmentPoints"]
+text = "Code"
+theme_type_variation = &"FieldLabel"
+[node name="Code" type="LineEdit" parent="AttachmentPoints"]
+placeholder_text = "Unique attachment code"
+tooltip_text = "Attachment code used by the game, for example RightHand or Center"
+[node name="pos" parent="AttachmentPoints" instance=ExtResource("2")]
+label_text = "Position · shape units"
+[node name="rotation" parent="AttachmentPoints" instance=ExtResource("2")]
+label_text = "Rotation · degrees"
+[node name="Message" type="Label" parent="AttachmentPoints"]
+autowrap_mode = 2
+theme_override_font_sizes/font_size = 12

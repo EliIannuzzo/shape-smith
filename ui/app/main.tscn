@@ -1,0 +1,280 @@
+[gd_scene format=3 uid="uid://b5532gal67adk"]
+
+[ext_resource type="Theme" uid="uid://beqs6jxd25kil" path="res://ui/theme/editor_theme.tres" id="1_theme"]
+[ext_resource type="Script" uid="uid://dut17yxq3qo65" path="res://ui/app/main.gd" id="2_script"]
+[ext_resource type="PackedScene" path="res://ui/animation/animation_workspace.tscn" id="3_viewport"]
+[ext_resource type="PackedScene" path="res://ui/viewport/grid_settings.tscn" id="4_grid"]
+[ext_resource type="PackedScene" path="res://ui/texturing/texture_manager.tscn" id="5_textures"]
+[ext_resource type="PackedScene" path="res://ui/dialogs/asset_paths_dialog.tscn" id="6_paths"]
+[ext_resource type="Script" uid="uid://rrvi4grcyja2" path="res://core/edit_history.gd" id="7_history"]
+[ext_resource type="FontFile" uid="uid://cbnkxfnwe1t3e" path="res://assets/fonts/Sinistre-Bold.otf" id="8_brand_font"]
+[ext_resource type="PackedScene" path="res://ui/viewport/gizmos/gizmo_toolbar.tscn" id="9_toolbar"]
+[ext_resource type="PackedScene" path="res://ui/theme/theme_editor.tscn" id="10_theme_editor"]
+[ext_resource type="PackedScene" path="res://ui/tools/screenshot_tool.tscn" id="11_screenshot"]
+[ext_resource type="PackedScene" path="res://ui/animation/animation_export_dialog.tscn" id="12_export"]
+
+[node name="ShapeSmith" type="Control" unique_id=928789680]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_script")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1878204922]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.141176, 0.160784, 0.180392, 1)
+
+[node name="Layout" type="VBoxContainer" parent="." unique_id=119001108]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="MenuPanel" type="Panel" parent="Layout" unique_id=1618870680]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 0
+theme_type_variation = &"MenuPanel"
+
+[node name="Menus" type="MenuBar" parent="Layout/MenuPanel" unique_id=204662181]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 1.0
+offset_right = 64.0
+offset_bottom = 29.0
+flat = true
+prefer_global_menu = false
+
+[node name="File" type="PopupMenu" parent="Layout/MenuPanel/Menus" unique_id=574941476]
+oversampling_override = 1.0
+size = Vector2i(231, 100)
+item_count = 7
+item_0/text = "New"
+item_0/id = 4
+item_1/text = "Open…"
+item_1/id = 0
+item_2/text = "Configure Asset Paths…"
+item_2/id = 1
+item_3/id = 100
+item_3/separator = true
+item_4/text = "Save"
+item_4/id = 2
+item_4/disabled = true
+item_5/text = "Save As…"
+item_5/id = 3
+item_5/disabled = true
+item_6/text = "Export for Vintage Story…"
+item_6/id = 5
+item_6/disabled = true
+
+[node name="Edit" type="PopupMenu" parent="Layout/MenuPanel/Menus" unique_id=154704864]
+oversampling_override = 1.0
+size = Vector2i(100, 142)
+item_count = 6
+item_0/text = "Undo"
+item_0/id = 10
+item_0/disabled = true
+item_1/text = "Redo"
+item_1/id = 11
+item_1/disabled = true
+item_2/id = 2
+item_2/separator = true
+item_3/text = "Grid"
+item_3/id = 0
+item_4/id = 21
+item_4/separator = true
+item_5/text = "Theme…"
+item_5/id = 20
+
+[node name="Grid" type="PopupMenu" parent="Layout/MenuPanel/Menus/Edit" unique_id=1232417527]
+oversampling_override = 1.0
+size = Vector2i(230, 278)
+item_count = 8
+item_0/text = "Show Grid"
+item_0/checkable = 1
+item_0/checked = true
+item_0/id = 0
+item_1/text = "Spacing"
+item_1/id = 1
+item_1/separator = true
+item_2/text = "1 block (16 shape units)"
+item_2/checkable = 2
+item_2/checked = true
+item_2/id = 1
+item_3/text = "½ block (8 shape units)"
+item_3/checkable = 2
+item_3/id = 2
+item_4/text = "¹⁄₁₆ block (1 shape unit)"
+item_4/checkable = 2
+item_4/id = 3
+item_5/id = 5
+item_5/separator = true
+item_6/text = "Dimensions…"
+item_6/id = 4
+item_7/text = "Show Axes"
+item_7/checkable = 1
+item_7/checked = true
+item_7/id = 5
+
+[node name="Viewport" type="PopupMenu" parent="Layout/MenuPanel/Menus" unique_id=908129394]
+oversampling_override = 1.0
+size = Vector2i(157, 142)
+item_count = 5
+item_0/text = "Perspective"
+item_0/checkable = 2
+item_0/checked = true
+item_0/id = 0
+item_1/text = "Orthographic"
+item_1/checkable = 2
+item_1/id = 1
+item_2/id = 2
+item_2/separator = true
+item_3/text = "Frame Shape"
+item_3/id = 2
+item_4/text = "Rendering"
+item_4/id = 3
+
+[node name="Rendering" type="PopupMenu" parent="Layout/MenuPanel/Menus/Viewport" unique_id=600628345]
+item_count = 3
+item_0/text = "Normal"
+item_0/checkable = 2
+item_0/checked = true
+item_0/id = 0
+item_1/text = "Unlit"
+item_1/checkable = 2
+item_1/id = 1
+item_2/text = "Wireframe"
+item_2/checkable = 2
+item_2/id = 2
+
+[node name="Tools" type="PopupMenu" parent="Layout/MenuPanel/Menus" unique_id=211384484]
+item_count = 1
+item_0/text = "Screenshot…"
+item_0/id = 0
+
+[node name="Brand" type="Label" parent="Layout/MenuPanel" unique_id=927549254]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_brand_font")
+theme_override_font_sizes/font_size = 20
+text = "Shapesmith"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ModePanel" type="PanelContainer" parent="Layout" unique_id=2117291592]
+layout_mode = 2
+theme_type_variation = &"FooterPanel"
+
+[node name="Margin" type="MarginContainer" parent="Layout/ModePanel" unique_id=723740321]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+
+[node name="Row" type="HBoxContainer" parent="Layout/ModePanel/Margin" unique_id=694267243]
+layout_mode = 2
+alignment = 1
+
+[node name="ModeTabs" type="TabBar" parent="Layout/ModePanel/Margin/Row" unique_id=1697133602]
+layout_mode = 2
+theme_type_variation = &"ModeTabs"
+size_flags_horizontal = 0
+current_tab = 0
+clip_tabs = false
+tab_count = 4
+tab_0/title = "View"
+tab_1/title = "Model"
+tab_2/title = "Texture"
+tab_3/title = "Animation"
+
+[node name="GizmoToolbar" parent="Layout/ModePanel/Margin/Row" unique_id=1450837311 instance=ExtResource("9_toolbar")]
+layout_mode = 2
+
+[node name="Workspace" parent="Layout" unique_id=921838997 instance=ExtResource("3_viewport")]
+layout_mode = 2
+
+[node name="Footer" type="PanelContainer" parent="Layout" unique_id=841259491]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+theme_type_variation = &"FooterPanel"
+
+[node name="Margin" type="MarginContainer" parent="Layout/Footer" unique_id=46257668]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 24
+
+[node name="Row" type="HBoxContainer" parent="Layout/Footer/Margin" unique_id=732365707]
+layout_mode = 2
+
+[node name="Status" type="Label" parent="Layout/Footer/Margin/Row" unique_id=1863526615]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"MutedLabel"
+theme_override_font_sizes/font_size = 12
+text = "No shape loaded  ·  Drag: orbit  /  Middle drag: pan  /  Wheel: zoom"
+text_overrun_behavior = 3
+
+[node name="Stage" type="Label" parent="Layout/Footer/Margin/Row" unique_id=650973638]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+theme_override_font_sizes/font_size = 12
+text = "Grid: 1 block (16 shape units)"
+
+[node name="FilePicker" type="FileDialog" parent="." unique_id=1622942719]
+title = "Open a File"
+size = Vector2i(960, 600)
+min_size = Vector2i(600, 400)
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.json ; ShapeSmith or Vintage Story Shape")
+
+[node name="ErrorDialog" type="AcceptDialog" parent="." unique_id=722199280]
+title = "Could not load shape"
+size = Vector2i(520, 160)
+dialog_autowrap = true
+
+[node name="SavePicker" type="FileDialog" parent="." unique_id=216507189]
+title = "Save ShapeSmith Working File"
+size = Vector2i(960, 600)
+min_size = Vector2i(600, 400)
+access = 2
+filters = PackedStringArray("*.shapesmith.json ; ShapeSmith Working File", "*.json ; JSON File")
+
+[node name="GridSettings" parent="." unique_id=1858005087 instance=ExtResource("4_grid")]
+oversampling_override = 1.0
+size = Vector2i(420, 239)
+
+[node name="TextureManager" parent="." unique_id=431316916 instance=ExtResource("5_textures")]
+
+[node name="AssetPaths" parent="." unique_id=1373007614 instance=ExtResource("6_paths")]
+oversampling_override = 1.0
+
+[node name="ThemeEditor" parent="." unique_id=921864745 instance=ExtResource("10_theme_editor")]
+size = Vector2i(400, 360)
+
+[node name="ScreenshotTool" parent="." unique_id=638559946 instance=ExtResource("11_screenshot")]
+
+[node name="AnimationExport" parent="." instance=ExtResource("12_export")]
+
+[node name="UnsavedPrompt" type="ConfirmationDialog" parent="." unique_id=1288534556]
+title = "Unsaved changes"
+ok_button_text = "Save"
+dialog_text = "Save changes before continuing?"
+
+[node name="EditHistory" type="Node" parent="." unique_id=601777651]
+script = ExtResource("7_history")

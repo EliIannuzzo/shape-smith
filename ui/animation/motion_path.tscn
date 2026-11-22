@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3]
+[ext_resource type="PackedScene" path="res://ui/shared/toggle_settings.tscn" id="1"]
+[ext_resource type="Script" path="res://ui/animation/motion_path.gd" id="2"]
+[ext_resource type="Texture2D" path="res://assets/icons/motion_path.svg" id="3"]
+[node name="MotionPath" instance=ExtResource("1")]
+script = ExtResource("2")
+toggle_text = "Motion Path"
+toggle_icon = ExtResource("3")
+toggle_tooltip = "Toggle motion preview: ghost shapes or paths at surrounding frames"
+settings_tooltip = "Motion path settings"
+[node name="Title" type="Label" parent="Popup/Margin/Content" index="0"]
+text = "Motion Path"
+[node name="Scope" type="OptionButton" parent="Popup/Margin/Content" index="1"]
+item_count = 3
+popup/item_0/text = "Selected shape"
+popup/item_1/text = "Entire hierarchy"
+popup/item_2/text = "Selected Shape Hierarchy"
+selected = 2
+text = "Selected Shape Hierarchy"
+[node name="RenderMode" type="OptionButton" parent="Popup/Margin/Content" index="2"]
+item_count = 2
+popup/item_0/text = "Motion Shapes"
+popup/item_1/text = "Motion Path"
+selected = 1
+text = "Motion Path"
+[node name="FrameLabel" type="Label" parent="Popup/Margin/Content" index="3"]
+text = "Frames: 10"
+[node name="Frames" type="HSlider" parent="Popup/Margin/Content" index="4"]
+min_value = 1.0
+max_value = 10.0
+step = 1.0
+value = 10.0
+tooltip_text = "Frame window centered on the playhead, clipped to animation boundaries"
+[node name="OpacityLabel" type="Label" parent="Popup/Margin/Content" index="5"]
+text = "Opacity"
+[node name="Opacity" type="HSlider" parent="Popup/Margin/Content" index="6"]
+custom_minimum_size = Vector2(230, 0)
+min_value = 0.05
+max_value = 1.0
+step = 0.05
+value = 1.0
+[node name="Fade" type="CheckBox" parent="Popup/Margin/Content" index="7"]
+text = "Fade with distance from current frame"
+button_pressed = true

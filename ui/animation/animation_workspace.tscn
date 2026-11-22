@@ -1,0 +1,370 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://ui/animation/animation_workspace.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://ui/viewport/model_viewport.tscn" id="2_viewport"]
+[ext_resource type="PackedScene" path="res://ui/hierarchy/hierarchy_browser.tscn" id="3_hierarchy"]
+[ext_resource type="PackedScene" path="res://ui/texturing/face_texturing.tscn" id="4_texturing"]
+[ext_resource type="Script" path="res://ui/animation/keyframe_tracks.gd" id="5_tracks"]
+[ext_resource type="Script" path="res://ui/animation/animation_list.gd" id="6_list"]
+[ext_resource type="PackedScene" path="res://ui/animation/keyframe_inspector.tscn" id="7_inspector"]
+[ext_resource type="PackedScene" path="res://ui/model/model_inspector.tscn" id="8_model_inspector"]
+
+[node name="Workspace" type="VSplitContainer"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 6
+script = ExtResource("1_script")
+
+[node name="Content" type="HSplitContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 260
+
+[node name="LeftDock" type="VBoxContainer" parent="Content"]
+visible = false
+size_flags_horizontal = 1
+theme_override_constants/separation = 0
+
+[node name="ContextBar" type="MarginContainer" parent="Content/LeftDock"]
+visible = false
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="ContextButton" type="Button" parent="Content/LeftDock/ContextBar"]
+text = "Shapes…"
+tooltip_text = "Load reference models, attachments, and root step parents"
+
+[node name="Sidebar" type="PanelContainer" parent="Content/LeftDock"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"SidebarPanel"
+
+[node name="Margin" type="MarginContainer" parent="Content/LeftDock/Sidebar"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Layout" type="VBoxContainer" parent="Content/LeftDock/Sidebar/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Header" type="HBoxContainer" parent="Content/LeftDock/Sidebar/Margin/Layout"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Content/LeftDock/Sidebar/Margin/Layout/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+text = "ANIMATIONS"
+
+[node name="AnimationCount" type="Label" parent="Content/LeftDock/Sidebar/Margin/Layout/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="Animations" type="ItemList" parent="Content/LeftDock/Sidebar/Margin/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+allow_reselect = true
+text_overrun_behavior = 3
+script = ExtResource("6_list")
+
+[node name="EmptyNote" type="Label" parent="Content/LeftDock/Sidebar/Margin/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+theme_override_font_sizes/font_size = 13
+text = "Load a shape to see its animations."
+autowrap_mode = 2
+
+[node name="AnimationButtons" type="HBoxContainer" parent="Content/LeftDock/Sidebar/Margin/Layout"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="NewAnimation" type="Button" parent="Content/LeftDock/Sidebar/Margin/Layout/AnimationButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"TransportButton"
+text = "New"
+disabled = true
+
+[node name="DeleteAnimation" type="Button" parent="Content/LeftDock/Sidebar/Margin/Layout/AnimationButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"TransportButton"
+text = "Delete"
+disabled = true
+
+[node name="DuplicateAnimation" type="Button" parent="Content/LeftDock/Sidebar/Margin/Layout/AnimationButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"TransportButton"
+text = "Duplicate"
+disabled = true
+[node name="TextureManagerButton" type="Button" parent="Content/LeftDock"]
+visible = false
+layout_mode = 2
+text = "Texture Manager…"
+disabled = true
+
+[node name="Hierarchy" parent="Content/LeftDock" instance=ExtResource("3_hierarchy")]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RightSplit" type="HSplitContainer" parent="Content"]
+size_flags_horizontal = 3
+split_offset = -360
+
+[node name="Viewport" parent="Content/RightSplit" instance=ExtResource("2_viewport")]
+layout_mode = 2
+
+[node name="TextureSidebar" type="PanelContainer" parent="Content/RightSplit"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 1
+theme_type_variation = &"SidebarPanel"
+
+[node name="Margin" type="MarginContainer" parent="Content/RightSplit/TextureSidebar"]
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Texturing" parent="Content/RightSplit/TextureSidebar/Margin" instance=ExtResource("4_texturing")]
+
+[node name="KeyframeInspector" parent="Content/RightSplit" instance=ExtResource("7_inspector")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="ModelInspector" parent="Content/RightSplit" instance=ExtResource("8_model_inspector")]
+layout_mode = 2
+
+[node name="Player" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"FooterPanel"
+
+[node name="Margin" type="MarginContainer" parent="Player"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Layout" type="VBoxContainer" parent="Player/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Header" type="HBoxContainer" parent="Player/Margin/Layout"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="CodeLabel" type="Label" parent="Player/Margin/Layout/Header"]
+layout_mode = 2
+text = "code"
+theme_override_font_sizes/font_size = 13
+
+[node name="ClipTitle" type="LineEdit" parent="Player/Margin/Layout/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+placeholder_text = "Animation code"
+editable = false
+
+[node name="TimelineMargin" type="MarginContainer" parent="Player/Margin/Layout/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Timeline" type="HSlider" parent="Player/Margin/Layout/Header/TimelineMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+step = 1.0
+max_value = 1.0
+tick_count = 11
+
+[node name="TracksScroll" type="ScrollContainer" parent="Player/Margin/Layout"]
+custom_minimum_size = Vector2(0, 78)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="KeyframeTracks" type="Control" parent="Player/Margin/Layout/TracksScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("5_tracks")
+
+[node name="KeyDetails" type="Label" parent="Player/Margin/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+theme_override_font_sizes/font_size = 12
+text = "Select a shape or keyframe to inspect its properties"
+text_overrun_behavior = 3
+
+[node name="Transport" type="HFlowContainer" parent="Player/Margin/Layout"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 4
+
+[node name="Playback" type="HBoxContainer" parent="Player/Margin/Layout/Transport"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Settings" type="HBoxContainer" parent="Player/Margin/Layout/Transport"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="First" type="Button" parent="Player/Margin/Layout/Transport/Playback"]
+theme_type_variation = &"TransportButton"
+unique_name_in_owner = true
+layout_mode = 2
+text = "|‹"
+tooltip_text = "Go to first frame"
+
+[node name="Previous" type="Button" parent="Player/Margin/Layout/Transport/Playback"]
+theme_type_variation = &"TransportButton"
+unique_name_in_owner = true
+layout_mode = 2
+text = "−1"
+tooltip_text = "Previous frame"
+
+[node name="Play" type="Button" parent="Player/Margin/Layout/Transport/Playback"]
+theme_type_variation = &"TransportButton"
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_override_constants/icon_max_width = 20
+tooltip_text = "Play animation"
+
+[node name="Next" type="Button" parent="Player/Margin/Layout/Transport/Playback"]
+theme_type_variation = &"TransportButton"
+unique_name_in_owner = true
+layout_mode = 2
+text = "+1"
+tooltip_text = "Next frame"
+
+[node name="Last" type="Button" parent="Player/Margin/Layout/Transport/Playback"]
+theme_type_variation = &"TransportButton"
+unique_name_in_owner = true
+layout_mode = 2
+text = "›|"
+tooltip_text = "Go to last frame"
+
+[node name="Spacer" type="Control" parent="Player/Margin/Layout/Transport/Settings"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FrameLabel" type="Label" parent="Player/Margin/Layout/Transport/Settings"]
+layout_mode = 2
+text = "Frame"
+theme_override_font_sizes/font_size = 13
+
+[node name="FrameInput" type="SpinBox" parent="Player/Margin/Layout/Transport/Settings"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+max_value = 0.0
+
+[node name="FrameTotal" type="Label" parent="Player/Margin/Layout/Transport/Settings"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "/ —"
+theme_override_font_sizes/font_size = 13
+
+[node name="Loop" type="CheckButton" parent="Player/Margin/Layout/Transport/Settings"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Loop"
+button_pressed = true
+theme_override_font_sizes/font_size = 13
+
+[node name="DurationLabel" type="Label" parent="Player/Margin/Layout/Transport/Settings"]
+layout_mode = 2
+text = "Duration"
+theme_override_font_sizes/font_size = 13
+
+[node name="Duration" type="SpinBox" parent="Player/Margin/Layout/Transport/Settings"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+min_value = 1.0
+max_value = 100000.0
+value = 30.0
+tooltip_text = "Animation duration in frames (30 FPS)"
+
+[node name="Speed" type="OptionButton" parent="Player/Margin/Layout/Transport/Settings"]
+unique_name_in_owner = true
+layout_mode = 2
+item_count = 4
+selected = 2
+popup/item_0/text = "0.25×"
+popup/item_0/id = 0
+popup/item_1/text = "0.5×"
+popup/item_1/id = 1
+popup/item_2/text = "1×"
+popup/item_2/id = 2
+popup/item_3/text = "2×"
+popup/item_3/id = 3
+tooltip_text = "Preview play rate (base rate is 30 FPS)"
+
+
+[node name="StoppedLabel" type="Label" parent="Player/Margin/Layout/Transport/Playback"]
+layout_mode = 2
+text = "On Stopped"
+theme_override_font_sizes/font_size = 13
+
+[node name="OnStopped" type="OptionButton" parent="Player/Margin/Layout/Transport/Playback"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 1
+theme_override_font_sizes/font_size = 13
+tooltip_text = "Vintage Story onActivityStopped behavior, saved with the animation."
+
+[node name="EndedLabel" type="Label" parent="Player/Margin/Layout/Transport/Playback"]
+layout_mode = 2
+text = "On Ended"
+theme_override_font_sizes/font_size = 13
+
+[node name="OnEnded" type="OptionButton" parent="Player/Margin/Layout/Transport/Playback"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 1
+theme_override_font_sizes/font_size = 13
+tooltip_text = "Vintage Story onAnimationEnd behavior, saved with the animation."
+
+[node name="RenameDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Rename Animation"
+ok_button_text = "Rename"
+
+[node name="ShowInbetweens" type="CheckBox" parent="Player/Margin/Layout/Transport/Settings"]
+unique_name_in_owner = true
+text = "In-between keys"
+tooltip_text = "Show generated keys as dim markers. Generated keys are read-only; edit the authored keys and curves to change them."
+
+[node name="RenameName" type="LineEdit" parent="RenameDialog"]
+unique_name_in_owner = true
+placeholder_text = "Animation name"
+
+[node name="AnimationError" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+title = "Animation change"
+size = Vector2i(440, 130)
+dialog_autowrap = true
+
+

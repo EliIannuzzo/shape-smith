@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://ui/animation/interpolation_field.gd" id="1"]
+[node name="Interpolation" type="HBoxContainer"]
+script = ExtResource("1")
+[node name="Label" type="Label" parent="."]
+text = "To next key"
+size_flags_horizontal = 3
+[node name="Curve" type="OptionButton" parent="."]
+custom_minimum_size = Vector2(140, 0)
+tooltip_text = "Interpolation from this key to the next key in this property group. Nonlinear curves are baked on export."

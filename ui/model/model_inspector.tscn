@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="Script" path="res://ui/model/model_inspector.gd" id="1"]
+[ext_resource type="PackedScene" path="res://ui/shared/vector3_field.tscn" id="2"]
+[node name="ModelInspector" type="PanelContainer"]
+visible = false
+custom_minimum_size = Vector2(240, 0)
+theme_type_variation = &"SidebarPanel"
+script = ExtResource("1")
+[node name="Margin" type="MarginContainer" parent="."]
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+[node name="Layout" type="VBoxContainer" parent="Margin"]
+theme_override_constants/separation = 2
+[node name="Heading" type="Label" parent="Margin/Layout"]
+text = "SHAPE DETAILS"
+theme_type_variation = &"SectionHeading"
+[node name="Title" type="Label" parent="Margin/Layout"]
+text_overrun_behavior = 3
+theme_override_font_sizes/font_size = 15
+[node name="Gap" type="Control" parent="Margin/Layout"]
+custom_minimum_size = Vector2(0, 6)
+[node name="Scroll" type="ScrollContainer" parent="Margin/Layout"]
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+[node name="Content" type="VBoxContainer" parent="Margin/Layout/Scroll"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+[node name="position" parent="Margin/Layout/Scroll/Content" instance=ExtResource("2")]
+label_text = "Position · shape units"
+[node name="size" parent="Margin/Layout/Scroll/Content" instance=ExtResource("2")]
+label_text = "Size · shape units"
+minimum = 0.0
+[node name="pivot" parent="Margin/Layout/Scroll/Content" instance=ExtResource("2")]
+label_text = "Pivot · shape units"
+[node name="rotation" parent="Margin/Layout/Scroll/Content" instance=ExtResource("2")]
+label_text = "Rotation · degrees"
+[node name="scale" parent="Margin/Layout/Scroll/Content" instance=ExtResource("2")]
+label_text = "Scale"
+[node name="RenderPassLabel" type="Label" parent="Margin/Layout/Scroll/Content"]
+text = "Render pass"
+theme_type_variation = &"FieldLabel"
+[node name="RenderPass" type="OptionButton" parent="Margin/Layout/Scroll/Content"]
+fit_to_longest_item = false
+clip_text = true
+tooltip_text = "Vintage Story render pass. Specialized liquid, soil and decor effects use a basic material preview."

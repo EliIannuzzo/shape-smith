@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://ui/shared/toggle_settings.gd" id="1"]
+[node name="ToggleSettings" type="PanelContainer"]
+script = ExtResource("1")
+[node name="Buttons" type="HBoxContainer" parent="."]
+theme_override_constants/separation = 0
+[node name="Toggle" type="Button" parent="Buttons"]
+custom_minimum_size = Vector2(32, 30)
+toggle_mode = true
+theme_override_constants/icon_max_width = 20
+[node name="Settings" type="Button" parent="Buttons"]
+custom_minimum_size = Vector2(28, 30)
+text = "⋯"
+[node name="Popup" type="PopupPanel" parent="."]
+[node name="Margin" type="MarginContainer" parent="Popup"]
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 12
+[node name="Content" type="VBoxContainer" parent="Popup/Margin"]
+theme_override_constants/separation = 8

@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://ui/shared/collapsible_section.gd" id="1"]
+[node name="CollapsibleSection" type="PanelContainer"]
+script = ExtResource("1")
+[node name="Layout" type="VBoxContainer" parent="."]
+[node name="Toggle" type="Button" parent="Layout"]
+flat = true
+alignment = 0
+toggle_mode = true
+[node name="Body" type="PanelContainer" parent="Layout"]
+visible = false
+[node name="Content" type="VBoxContainer" parent="Layout/Body"]
+visible = false
+theme_override_constants/separation = 4
