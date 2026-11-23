@@ -213,6 +213,15 @@ empty element in place of the first; ungrouping and Delete, Keep Children move
 the children up a level. All of these keep every element where it is in the
 world, and each is one undo step.
 
+**Mirror…** reflects the selected elements across a plane (an axis and a
+position, in shape units, in their parent's space). Each element's box, pivot
+and rotation are reflected, the two faces across the axis swap, and every
+face's texture is flipped, so it reads as a mirror image. Its children,
+attachment points and animation keys mirror with it. To make a right-hand
+copy of a left part, duplicate it, then mirror the copy. Mirrored elements
+keep a positive scale, so they look the same in VSMC2 and in the game (VSMC2
+cannot show an element with a negative scale).
+
 The padlock beside each row's eye locks it (**Ctrl+L**): a locked element
 cannot be picked in the viewport or moved with the gizmo, though you can
 still select it in the outliner and edit its numbers. Locks, Hide Others and

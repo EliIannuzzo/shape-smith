@@ -13,6 +13,8 @@ const RenameTrack = preload("res://core/commands/rename_track.gd")
 const RemoveTracks = preload("res://core/commands/remove_tracks.gd")
 const AddPoses = preload("res://core/commands/add_poses.gd")
 const Composite = preload("res://core/commands/composite_command.gd")
+const SetPointFields = preload("res://core/commands/set_point_fields.gd")
+const ShapeMirror = preload("res://core/model/shape_mirror.gd")
 var viewport_view
 var document
 var scene_sync
@@ -91,7 +93,7 @@ func _ready() -> void:
 		if mirror_shapes(_selected_or(target), mirror_axis.selected, mirror_plane.value):
 			mirror_dialog.hide()
 		else:
-			mirror_error.text = "Cannot mirror a shape with zero scale.")
+			mirror_error.text = "Could not mirror the selection.")
 	hierarchy_browser.context_requested.connect(open_context)
 	hierarchy_browser.rename_requested.connect(open_rename)
 	hierarchy_browser.rename_submitted.connect(_on_rename_submitted)
@@ -432,52 +434,59 @@ func open_mirror(element: Node3D) -> void:
 
 
 func mirror_shape(element: Node3D, axis: int, plane: float) -> bool:
-	var after := mirror_fields(element, axis, plane)
-	if after.is_empty():
-		return false
-	var uid := Document.uid_of(element)
-	edit_history.flush_pending.emit()
-	return edit_history.execute(SetFields.new(document, uid, after, "Mirror Shape"))
+	return mirror_shapes([element], axis, plane)
 
 
-## The fields that reflect an element across a plane in its parent's space,
-## or {} if it cannot be mirrored (zero scale).
-func mirror_fields(element: Node3D, axis: int, plane: float) -> Dictionary:
-	if not is_instance_valid(element) or axis < 0 or axis > 2 or absf(element.basis.determinant()) < MIN_TRANSFORM_DETERMINANT:
-		return {}
-	if not document.has(Document.uid_of(element)):
-		return {}
-	var source: Dictionary = element.get_meta("shape_element")
-	var after: Dictionary = {}
-	var signs := Vector3.ONE
-	signs[axis] = -1
-	var reflection := Basis.from_scale(signs)
-	var shift := Vector3.ZERO
-	shift[axis] = 2 * plane / Units.PER_BLOCK
-	var desired := Transform3D(reflection * element.basis, reflection * element.position + shift)
-	var pivot: Vector3 = reflection * (transform_controller.vector_from_array(source.get("rotationOrigin", [0, 0, 0])) / Units.PER_BLOCK) + shift
-	var start := pivot + desired.basis.inverse() * (desired.origin - pivot)
-	var size := Geometry.size_of(source)
-	var scale_value := desired.basis.get_scale()
-	var rotation := desired.basis * Basis.from_scale(Vector3.ONE / scale_value)
-	var angles := rotation.get_euler(EULER_ORDER_XYZ) * 180 / PI
-	after.from = transform_controller.vector_to_array(start * 16)
-	after.to = transform_controller.vector_to_array((start + size) * 16)
-	after.rotationOrigin = transform_controller.vector_to_array(pivot * 16)
-	for i in range(3):
-		after["rotation" + ["X", "Y", "Z"][i]] = angles[i]
-		after["scale" + ["X", "Y", "Z"][i]] = scale_value[i]
-	return after
-
-
-## Mirrors several elements, each in its own parent's space, as one step.
+## Mirrors elements across a plane in their parents' space, as one step. Each
+## element's children, attachment points and animation keys mirror with it;
+## no element gets a negative scale (see ShapeMirror).
 func mirror_shapes(elements: Array, axis: int, plane: float) -> bool:
-	if elements.size() == 1:
-		return mirror_shape(elements[0], axis, plane)
+	if axis < 0 or axis > 2:
+		return false
+	var chosen: Array = elements.filter(func(node): return is_instance_valid(node) and node.has_meta("shape_element") and document.has(Document.uid_of(node)))
+	# A child of another chosen element mirrors with it, not twice.
+	var roots: Array = chosen.filter(func(node): return not chosen.any(func(other): return other != node and other.is_ancestor_of(node)))
+	if roots.is_empty():
+		return false
 	var steps: Array = []
-	for element in elements:
-		var fields := mirror_fields(element, axis, plane)
-		if fields.is_empty():
-			return false
-		steps.append(SetFields.new(document, Document.uid_of(element), fields))
-	return edit_history.execute(Composite.new(document, steps, "Mirror Shapes"))
+	var names: Array = []
+	for node in roots:
+		_mirror_branch(node, axis, plane, steps, names)
+	# Keys follow their elements by name; only names used once can be mirrored.
+	var counts := {}
+	for node in Geometry.elements(viewport_view.models):
+		var name_value := str(node.get_meta("shape_element").get("name", ""))
+		counts[name_value] = counts.get(name_value, 0) + 1
+	var poses: Array = []
+	var animations: Array = Document.animations(document.data)
+	for clip_index in range(animations.size()):
+		var clip: Variant = animations[clip_index]
+		if not clip is Dictionary or not clip.get("keyframes") is Array:
+			continue
+		for key in clip.keyframes:
+			if not key is Dictionary or not key.get("elements") is Dictionary:
+				continue
+			for name_value in names:
+				if counts.get(name_value, 0) == 1 and key.elements.get(name_value) is Dictionary:
+					poses.append({"clip": clip_index, "frame": key.get("frame"), "element": name_value, "pose": ShapeMirror.pose(key.elements[name_value], axis)})
+	if not poses.is_empty():
+		steps.append(AddPoses.new(document, poses))
+	edit_history.flush_pending.emit()
+	return edit_history.execute(Composite.new(document, steps, "Mirror Shape" if roots.size() == 1 else "Mirror Shapes"))
+
+
+func _mirror_branch(node: Node3D, axis: int, plane: float, steps: Array, names: Array) -> void:
+	var source: Dictionary = node.get_meta("shape_element")
+	var uid := Document.uid_of(node)
+	var uv_size := func(id: String) -> Vector2: return viewport_view.texture_library.uv_size(id)
+	steps.append(SetFields.new(document, uid, ShapeMirror.element_fields(source, axis, plane, uv_size)))
+	names.append(str(source.get("name", "")))
+	var points: Variant = source.get("attachmentPoints", source.get("attachmentpoints", []))
+	for index in range((points as Array).size() if points is Array else 0):
+		var point_uid: String = document.point_at(uid, index)
+		if not point_uid.is_empty() and points[index] is Dictionary:
+			steps.append(SetPointFields.new(document, point_uid, ShapeMirror.point_fields(points[index], source, axis)))
+	var inner: float = ShapeMirror.child_plane(source, axis)
+	for child in node.get_children():
+		if child is Node3D and child.has_meta("shape_element") and document.has(Document.uid_of(child)):
+			_mirror_branch(child, axis, inner, steps, names)
